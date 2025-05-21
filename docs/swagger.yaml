@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  title: SOCKET API
+  description: A simple web socket documentation.
+  version: "1.0.0"
+servers:
+  - url: http://localhost:3000
+  - url: https://api.example.com 
+  - url: https://rahulsharma.com.np
+paths:
+  /users:
+    get:
+      summary: Get all users
+      tags:
+        - Users
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+  /users/{id}:
+    get:
+      summary: Get a user by ID
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: './schema/users.schema.js'
+      responses:
+        '200':
+          description: A user object
+
+  /login:
+    post:
+      summary: User login API
+      tags:
+        - Account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                password:
+                  type: string
+                  format: password
+                  example: yourpassword
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6...
+        '401':
+          description: Invalid email or password
+        '500':
+          description: Internal server error

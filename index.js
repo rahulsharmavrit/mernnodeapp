@@ -2,6 +2,15 @@ const express = require("express");
 const app = express();
 const http = require("http");
 const {Server} = require("socket.io")
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
+/* swigger */
+
+// Load YAML Swagger file
+const swaggerDocument = YAML.load("./docs/swagger.yaml");
+
+// Setup docs route
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 /* middelwares */
